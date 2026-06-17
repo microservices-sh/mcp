@@ -1,0 +1,34 @@
+{
+  "name": "sh.microservices/mcp",
+  "description": "microservices.sh local stdio MCP server for verified modules, templates, checks, and guarded preview deployment.",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/microservices-sh/microservices-sh",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@microservices-sh/mcp",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.microservices.sh/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer ${MICROSERVICES_API_KEY}",
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
