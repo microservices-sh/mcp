@@ -1,4 +1,7 @@
 node_modules/
 dist/
+!dist/
+dist/*
+!dist/index.js
 *.tgz
 .DS_Store
