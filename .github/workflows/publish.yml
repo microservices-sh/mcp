@@ -69,4 +69,17 @@ jobs:
 
       - name: Published version
         if: steps.version.outputs.published != 'true'
-        run: npm view "${{ steps.version.outputs.package_name }}@${{ steps.version.outputs.package_version }}" version
+        shell: bash
+        run: |
+          package="${{ steps.version.outputs.package_name }}@${{ steps.version.outputs.package_version }}"
+          for attempt in {1..12}; do
+            if published_version="$(npm view "$package" version 2>/dev/null)"; then
+              test "$published_version" = "${{ steps.version.outputs.package_version }}"
+              exit 0
+            fi
+
+            echo "Waiting for npm registry propagation for ${package} (${attempt}/12)..."
+            sleep 10
+          done
+
+          npm view "$package" version
