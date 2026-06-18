@@ -100,4 +100,20 @@ jobs:
         run: |
           test -n "$MCP_PRIVATE_KEY"
           ./mcp-publisher login dns --domain microservices.sh --private-key "$MCP_PRIVATE_KEY"
-          ./mcp-publisher publish
+          set +e
+          publish_output="$(./mcp-publisher publish 2>&1)"
+          publish_status="$?"
+          set -e
+
+          printf "%s\n" "$publish_output"
+
+          if [ "$publish_status" -eq 0 ]; then
+            exit 0
+          fi
+
+          if printf "%s\n" "$publish_output" | grep -qi "duplicate version"; then
+            echo "MCP Registry version is already published; treating duplicate as success."
+            exit 0
+          fi
+
+          exit "$publish_status"
