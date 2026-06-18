@@ -1,6 +1,6 @@
 {
   "name": "@microservices-sh/mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "MCP server for AI agents building Cloudflare-native apps with verified modules, local checks, and approval-gated deploy plans.",
   "type": "module",
   "packageManager": "pnpm@10.33.0",
@@ -39,6 +39,7 @@
     "dist",
     "README.md",
     "llms-install.md",
+    "SECURITY.md",
     "glama.json",
     "server.json"
   ],
