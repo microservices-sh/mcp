@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { startStdioServer } from "./server.js";
 
-const VERSION = "0.1.0";
+const VERSION = "0.1.1";
 
 function printHelp() {
   process.stdout.write(`microservices-mcp ${VERSION}
