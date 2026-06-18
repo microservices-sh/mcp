@@ -82,7 +82,7 @@ Remote control-plane tools:
 
 | Variable | Purpose |
 |----------|---------|
-| `MICROSERVICES_API_URL` | Remote control-plane URL. Defaults to `http://127.0.0.1:8787`. |
+| `MICROSERVICES_API_URL` | Remote control-plane URL. Defaults to `https://api.microservices.sh`. |
 | `MICROSERVICES_API_KEY` | Bearer token for remote tools. |
 | `MICROSERVICES_TOKEN` | Fallback bearer token. |
 

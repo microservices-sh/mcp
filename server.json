@@ -1,9 +1,11 @@
 {
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "sh.microservices/mcp",
-  "description": "microservices.sh local stdio MCP server for verified modules, templates, checks, and guarded preview deployment.",
+  "title": "microservices.sh",
+  "description": "Build and deploy verified Cloudflare-native business apps with agent guardrails.",
   "status": "active",
   "repository": {
-    "url": "https://github.com/microservices-sh/microservices-sh",
+    "url": "https://github.com/microservices-sh/mcp",
     "source": "github"
   },
   "version": "0.1.0",

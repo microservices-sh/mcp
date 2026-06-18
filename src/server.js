@@ -20,7 +20,7 @@ import {
 const SERVER_NAME = "microservices.sh";
 const SERVER_VERSION = "0.1.0";
 const PROTOCOL_VERSION = "2025-06-18";
-const DEFAULT_API_URL = "http://127.0.0.1:8787";
+const DEFAULT_API_URL = "https://api.microservices.sh";
 
 function text(value) {
   return JSON.stringify(value, null, 2);
@@ -269,7 +269,7 @@ export const TOOLS = [
         ...TEMPLATE_INPUT_SCHEMA,
         name: { type: "string", description: "Project or deployment display name." },
         actor: { type: "string", description: "Actor label for audit logs." },
-        apiUrl: { type: "string", description: "Optional control-plane URL. Defaults to MICROSERVICES_API_URL or localhost." },
+        apiUrl: { type: "string", description: "Optional control-plane URL. Defaults to MICROSERVICES_API_URL or https://api.microservices.sh." },
         apiKey: { type: "string", description: "Optional API key. Prefer MICROSERVICES_API_KEY." },
         confirm: { type: "string", enum: ["preview"], description: "Required confirmation for this mutating tool." },
       },
@@ -283,7 +283,7 @@ export const TOOLS = [
     inputSchema: jsonSchema(
       {
         deploymentId: { type: "string", description: "Deployment id." },
-        apiUrl: { type: "string", description: "Optional control-plane URL. Defaults to MICROSERVICES_API_URL or localhost." },
+        apiUrl: { type: "string", description: "Optional control-plane URL. Defaults to MICROSERVICES_API_URL or https://api.microservices.sh." },
         apiKey: { type: "string", description: "Optional API key. Prefer MICROSERVICES_API_KEY." },
       },
       ["deploymentId"]
