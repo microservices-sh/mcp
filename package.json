@@ -1,7 +1,7 @@
 {
   "name": "@microservices-sh/mcp",
   "version": "0.1.1",
-  "description": "Local stdio MCP server for microservices.sh modules, templates, checks, and guarded preview deployment.",
+  "description": "MCP server for AI agents building Cloudflare-native apps with verified modules, local checks, and approval-gated deploy plans.",
   "type": "module",
   "packageManager": "pnpm@10.33.0",
   "main": "dist/index.js",
@@ -12,6 +12,18 @@
   "engines": {
     "node": ">=20"
   },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "cloudflare",
+    "cloudflare-workers",
+    "ai-agents",
+    "developer-tools",
+    "sveltekit",
+    "d1",
+    "microservices",
+    "deployment"
+  ],
   "scripts": {
     "mcp": "node dist/index.js",
     "build": "node scripts/build.js && node --check dist/index.js",
@@ -26,6 +38,7 @@
   "files": [
     "dist",
     "README.md",
+    "glama.json",
     "server.json"
   ],
   "license": "MIT",

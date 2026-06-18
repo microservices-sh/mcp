@@ -2,8 +2,9 @@
 
 [![npm version](https://img.shields.io/npm/v/%40microservices-sh%2Fmcp.svg)](https://www.npmjs.com/package/@microservices-sh/mcp)
 [![Official MCP Registry](https://img.shields.io/badge/MCP%20Registry-sh.microservices%2Fmcp-1f6feb)](https://registry.modelcontextprotocol.io/v0.1/servers?search=sh.microservices/mcp)
+[![mcp MCP server](https://glama.ai/mcp/servers/microservices-sh/mcp/badges/score.svg)](https://glama.ai/mcp/servers/microservices-sh/mcp)
 
-Local stdio MCP server for microservices.sh modules, templates, checks, and guarded preview deployment.
+MCP server for AI agents building Cloudflare-native apps with verified modules, local checks, and approval-gated deploy plans.
 
 This package is a standalone stdio MCP server. It vendors a small microservices.sh SDK/module-contract snapshot until the public SDK is split out.
 

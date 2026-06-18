@@ -126,17 +126,17 @@ function jsonSchema(properties = {}, required = []) {
 const TEMPLATE_INPUT_SCHEMA = {
   templateId: {
     type: "string",
-    description: "Template id. Defaults to the registry default when omitted.",
+    description: "Template id to use for app composition. Omit to use the registry default template.",
   },
   modules: {
     type: "array",
     items: { type: "string" },
-    description: "Optional module ids to include.",
+    description: "Optional microservices.sh module ids to include, such as auth, booking, customer, payment, files, or audit-log.",
   },
   config: {
     type: "object",
     additionalProperties: true,
-    description: "Template configuration override.",
+    description: "Template configuration overrides for generated source, runtime bindings, or module-specific settings.",
   },
 };
 
@@ -144,16 +144,18 @@ export const TOOLS = [
   {
     name: "list_templates",
     title: "List Templates",
-    description: "List available microservices.sh app templates.",
+    description:
+      "List available microservices.sh app templates, including template ids and summaries. Use this before inspect_template, compose_app, generate_project, or run_checks when choosing a foundation for a new Cloudflare app.",
     inputSchema: jsonSchema(),
   },
   {
     name: "inspect_template",
     title: "Inspect Template",
-    description: "Inspect one template contract, modules, defaults, and runtime metadata.",
+    description:
+      "Inspect one app template contract, including supported modules, default configuration, runtime metadata, and generation behavior. Use this before composing or generating a project from a specific template id.",
     inputSchema: jsonSchema(
       {
-        templateId: { type: "string", description: "Template id to inspect." },
+        templateId: { type: "string", description: "Template id returned by list_templates, for example booking-sveltekit." },
       },
       ["templateId"]
     ),
@@ -161,16 +163,18 @@ export const TOOLS = [
   {
     name: "list_modules",
     title: "List Modules",
-    description: "List available verified modules.",
+    description:
+      "List available verified microservices.sh modules with ids, categories, summaries, versions, and maturity status. Use this to discover production building blocks before inspect_module, compose_app, or plan_add_module.",
     inputSchema: jsonSchema(),
   },
   {
     name: "inspect_module",
     title: "Inspect Module",
-    description: "Inspect one module contract, permissions, hooks, events, and resources.",
+    description:
+      "Inspect one module contract in detail, including permissions, hooks, events, resources, storage needs, and customization points. Use this before editing or adding a module so the agent understands the module boundaries.",
     inputSchema: jsonSchema(
       {
-        moduleId: { type: "string", description: "Module id to inspect." },
+        moduleId: { type: "string", description: "Module id returned by list_modules, for example auth, booking, customer, payment, files, or audit-log." },
       },
       ["moduleId"]
     ),
@@ -178,16 +182,18 @@ export const TOOLS = [
   {
     name: "list_module_docs",
     title: "List Module Docs",
-    description: "List LLM-readable module documentation entries.",
+    description:
+      "List LLM-readable documentation pages available for module implementation guidance. Use this to discover local docs before get_module_doc or before changing generated source.",
     inputSchema: jsonSchema(),
   },
   {
     name: "get_module_doc",
     title: "Get Module Doc",
-    description: "Return an LLM-readable module documentation page.",
+    description:
+      "Return an LLM-readable documentation page for a module, including rules, implementation notes, and agent guidance. Use this before coding against a module contract.",
     inputSchema: jsonSchema(
       {
-        moduleId: { type: "string", description: "Module id to document." },
+        moduleId: { type: "string", description: "Module id whose documentation should be returned, for example booking or payment." },
       },
       ["moduleId"]
     ),
@@ -195,83 +201,93 @@ export const TOOLS = [
   {
     name: "compose_app",
     title: "Compose App",
-    description: "Compose a template and modules into a checked app contract and lockfile plan.",
+    description:
+      "Compose a template and selected modules into a checked app contract and lockfile plan without writing files. Use this to preview the exact app composition before generate_project or deployment planning.",
     inputSchema: jsonSchema(TEMPLATE_INPUT_SCHEMA),
   },
   {
     name: "validate_config",
     title: "Validate Config",
-    description: "Validate a template/module config before generation or deployment.",
+    description:
+      "Validate a template, module list, and configuration object before generation or deployment. Use this to catch unsupported modules, missing settings, and invalid config before side effects.",
     inputSchema: jsonSchema(TEMPLATE_INPUT_SCHEMA),
   },
   {
     name: "generate_project",
     title: "Generate Project",
-    description: "Generate source files in-memory for inspection. This tool does not write files.",
+    description:
+      "Generate project source files in memory for agent inspection. This tool does not write files; use it to review planned source, docs, migrations, and config before creating or editing a local project.",
     inputSchema: jsonSchema(TEMPLATE_INPUT_SCHEMA),
   },
   {
     name: "run_checks",
     title: "Run Checks",
-    description: "Run local contract and readiness checks for a template/module composition.",
+    description:
+      "Run local contract and readiness checks for a template/module composition. Use this before deployment planning to verify module compatibility, generated artifacts, and operational guardrails.",
     inputSchema: jsonSchema(TEMPLATE_INPUT_SCHEMA),
   },
   {
     name: "plan_add_module",
     title: "Plan Add Module",
-    description: "Plan an approval-gated module addition without writing files.",
+    description:
+      "Plan an approval-gated module addition against an optional existing microservices.lock.json. This tool reports intended lockfile changes and required review gates without writing files.",
     inputSchema: jsonSchema({
-      moduleId: { type: "string", description: "Module id or module@version selector." },
-      version: { type: "string", description: "Optional explicit target version." },
-      lock: { type: "object", additionalProperties: true, description: "Optional existing microservices.lock.json content." },
+      moduleId: { type: "string", description: "Module id or module@version selector to add, for example payment or booking@0.1.0." },
+      version: { type: "string", description: "Optional explicit target version when moduleId does not include @version." },
+      lock: { type: "object", additionalProperties: true, description: "Optional existing microservices.lock.json content used to calculate a safe add plan." },
     }),
   },
   {
     name: "check_updates",
     title: "Check Updates",
-    description: "Check locked modules against the registry snapshot.",
+    description:
+      "Check locked module versions against the bundled registry snapshot. Use this to identify available module updates before plan_module_upgrade.",
     inputSchema: jsonSchema({
-      lock: { type: "object", additionalProperties: true, description: "Optional existing microservices.lock.json content." },
+      lock: { type: "object", additionalProperties: true, description: "Optional existing microservices.lock.json content to compare against known module versions." },
     }),
   },
   {
     name: "plan_module_upgrade",
     title: "Plan Module Upgrade",
-    description: "Plan a module version change and report approval gates.",
+    description:
+      "Plan a module version change and report approval gates, compatibility notes, and lockfile impact. Use this before applying a module upgrade.",
     inputSchema: jsonSchema({
-      moduleId: { type: "string", description: "Module id or module@version selector." },
-      version: { type: "string", description: "Optional current version." },
-      to: { type: "string", description: "Optional target version." },
-      lock: { type: "object", additionalProperties: true, description: "Optional existing microservices.lock.json content." },
+      moduleId: { type: "string", description: "Module id or module@version selector to upgrade, for example auth or payment@0.1.0." },
+      version: { type: "string", description: "Optional current version when it is not available from the lockfile." },
+      to: { type: "string", description: "Optional target version. Omit to let the planner choose the latest known version." },
+      lock: { type: "object", additionalProperties: true, description: "Optional existing microservices.lock.json content used to calculate upgrade impact." },
     }),
   },
   {
     name: "get_secrets_status",
     title: "Get Secrets Status",
-    description: "Report required secret names and configured/missing status without exposing values.",
+    description:
+      "Report required secret names and configured/missing status for a template/module composition without exposing secret values. Use this before deployment planning or remote preview deploys.",
     inputSchema: jsonSchema(TEMPLATE_INPUT_SCHEMA),
   },
   {
     name: "create_preview_plan",
     title: "Create Preview Plan",
-    description: "Create a local preview-readiness plan without mutating remote state.",
+    description:
+      "Create a local preview-deployment readiness plan without mutating remote state. Use this before deploy_preview to review resources, checks, errors, warnings, and required approval steps.",
     inputSchema: jsonSchema({
       ...TEMPLATE_INPUT_SCHEMA,
-      mode: { type: "string", enum: ["embedded", "service"], description: "Deployment topology mode." },
+      mode: { type: "string", enum: ["embedded", "service"], description: "Deployment topology mode: embedded for one Worker app, service for separated service modules." },
     }),
   },
   {
     name: "deploy_preview",
     title: "Deploy Preview",
-    description: "Prepare a remote preview deployment through the microservices.sh control plane. Requires confirm: preview.",
+    description:
+      "Prepare a remote preview deployment through the microservices.sh control plane. This is a mutating tool and requires confirm: preview; call create_preview_plan first and only proceed after human review.",
     inputSchema: jsonSchema(
       {
         ...TEMPLATE_INPUT_SCHEMA,
-        name: { type: "string", description: "Project or deployment display name." },
-        actor: { type: "string", description: "Actor label for audit logs." },
+        name: { type: "string", description: "Project or deployment display name recorded in the preview deployment request." },
+        actor: { type: "string", description: "Actor label for audit logs, such as the agent, user, or workflow initiating the preview." },
         apiUrl: { type: "string", description: "Optional control-plane URL. Defaults to MICROSERVICES_API_URL or https://api.microservices.sh." },
-        apiKey: { type: "string", description: "Optional API key. Prefer MICROSERVICES_API_KEY." },
-        confirm: { type: "string", enum: ["preview"], description: "Required confirmation for this mutating tool." },
+        apiKey: { type: "string", description: "Optional API key for the control plane. Prefer MICROSERVICES_API_KEY or MICROSERVICES_TOKEN in the environment." },
+        confirm: { type: "string", enum: ["preview"], description: "Required literal confirmation for this mutating preview-deployment tool." },
       },
       ["confirm"]
     ),
@@ -279,12 +295,13 @@ export const TOOLS = [
   {
     name: "get_deployment_status",
     title: "Get Deployment Status",
-    description: "Read a remote deployment status from the microservices.sh control plane.",
+    description:
+      "Read a remote preview deployment status from the microservices.sh control plane. Use this after deploy_preview to poll status, inspect errors, or retrieve deployment metadata.",
     inputSchema: jsonSchema(
       {
-        deploymentId: { type: "string", description: "Deployment id." },
+        deploymentId: { type: "string", description: "Deployment id returned by deploy_preview or the microservices.sh control plane." },
         apiUrl: { type: "string", description: "Optional control-plane URL. Defaults to MICROSERVICES_API_URL or https://api.microservices.sh." },
-        apiKey: { type: "string", description: "Optional API key. Prefer MICROSERVICES_API_KEY." },
+        apiKey: { type: "string", description: "Optional API key for the control plane. Prefer MICROSERVICES_API_KEY or MICROSERVICES_TOKEN in the environment." },
       },
       ["deploymentId"]
     ),
