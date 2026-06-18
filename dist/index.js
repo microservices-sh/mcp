@@ -3029,7 +3029,7 @@ function runChecks(input = {}) {
 
 // src/server.js
 var SERVER_NAME = "microservices.sh";
-var SERVER_VERSION = "0.1.2";
+var SERVER_VERSION = "0.1.3";
 var PROTOCOL_VERSION = "2025-06-18";
 var DEFAULT_API_URL = "https://api.microservices.sh";
 function text(value) {
@@ -3464,7 +3464,7 @@ async function startStdioServer({ stdin, stdout, stderr, env }) {
 }
 
 // src/index.js
-var VERSION = "0.1.2";
+var VERSION = "0.1.3";
 function printHelp() {
   process.stdout.write(`microservices-mcp ${VERSION}
 

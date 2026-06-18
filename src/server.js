@@ -18,7 +18,7 @@ import {
 } from "./sdk/index.js";
 
 const SERVER_NAME = "microservices.sh";
-const SERVER_VERSION = "0.1.2";
+const SERVER_VERSION = "0.1.3";
 const PROTOCOL_VERSION = "2025-06-18";
 const DEFAULT_API_URL = "https://api.microservices.sh";
 
