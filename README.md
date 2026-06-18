@@ -65,6 +65,8 @@ Build the local package first:
 pnpm build
 ```
 
+For agent-oriented one-click install guidance, see [`llms-install.md`](./llms-install.md).
+
 ## Tools
 
 Read-only and local planning tools:

@@ -38,6 +38,7 @@
   "files": [
     "dist",
     "README.md",
+    "llms-install.md",
     "glama.json",
     "server.json"
   ],
