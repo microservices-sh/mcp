@@ -21,4 +21,5 @@ COPY --from=build /app/server.json ./server.json
 COPY --from=build /app/dist ./dist
 
 USER node
-ENTRYPOINT ["node", "dist/index.js"]
+ENTRYPOINT ["node"]
+CMD ["dist/index.js"]
