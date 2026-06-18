@@ -4,9 +4,15 @@
 [![Official MCP Registry](https://img.shields.io/badge/MCP%20Registry-sh.microservices%2Fmcp-1f6feb)](https://registry.modelcontextprotocol.io/v0.1/servers?search=sh.microservices/mcp)
 [![mcp MCP server](https://glama.ai/mcp/servers/microservices-sh/mcp/badges/score.svg)](https://glama.ai/mcp/servers/microservices-sh/mcp)
 
-MCP server for AI agents building Cloudflare-native apps with verified modules, local checks, and approval-gated deploy plans.
+MCP server for AI agents that generate, verify, and deploy Cloudflare-native apps from reusable microservices.sh modules.
 
 This package is a standalone stdio MCP server. It vendors a small microservices.sh SDK/module-contract snapshot until the public SDK is split out.
+
+## Why Agents Use It
+
+`@microservices-sh/mcp` gives coding agents a typed planning layer for building production-oriented Cloudflare apps. Agents can discover verified templates and modules, inspect module contracts, compose an app plan, validate configuration, generate project files for review, run readiness checks, and prepare approval-gated preview deployments through the microservices.sh control plane.
+
+It is useful when an agent needs to build apps with common product modules such as auth, booking, customer records, payments, files, and audit logs without inventing each integration from scratch.
 
 ## Install
 
@@ -19,6 +25,10 @@ Or run it directly after publish:
 ```bash
 pnpm dlx @microservices-sh/mcp
 ```
+
+Or install from Glama:
+
+- [`@microservices-sh/mcp` on Glama](https://glama.ai/mcp/servers/microservices-sh/mcp)
 
 ## MCP Client Config
 
@@ -94,10 +104,12 @@ Secret values are never returned by the MCP tools.
 
 ## Registry Notes
 
-The package is published to npm and the official MCP Registry:
+The package is published to npm, listed in the official MCP Registry, and verified by Glama:
 
 - npm: [`@microservices-sh/mcp`](https://www.npmjs.com/package/@microservices-sh/mcp)
 - MCP Registry: [`sh.microservices/mcp`](https://registry.modelcontextprotocol.io/v0.1/servers?search=sh.microservices/mcp)
+- Glama: [`@microservices-sh/mcp`](https://glama.ai/mcp/servers/microservices-sh/mcp)
+- awesome-mcp-servers: [PR #8249](https://github.com/punkpeye/awesome-mcp-servers/pull/8249)
 - Remote endpoint: `https://api.microservices.sh/mcp`
 
 The package declares `"mcpName": "sh.microservices/mcp"` in `package.json`. Docker/OCI packaging should wrap this same stdio server rather than forking behavior.
